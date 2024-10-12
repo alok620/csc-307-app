@@ -51,6 +51,21 @@ const addUser = (user) => {
   return user;
 };
 
+const deleteUser = (id) =>
+	users["users_list"].splice(users["users_list"].findIndex((user) => user["id"] === id), 1);
+	
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  let result = findUserById(id);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    deleteUser(id);
+    res.send();
+  }
+});
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
