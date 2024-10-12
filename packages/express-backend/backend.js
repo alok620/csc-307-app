@@ -34,6 +34,9 @@ const users = {
 const app = express();
 const port = 8000;
 
+
+app.use(express.json());
+
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
@@ -42,6 +45,17 @@ const findUserByName = (name) => {
 
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
+
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
+};
+
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.send();
+});
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
@@ -64,7 +78,6 @@ app.get("/users", (req, res) => {
   }
 });
 
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
