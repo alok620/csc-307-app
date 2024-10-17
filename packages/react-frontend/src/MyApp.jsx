@@ -57,8 +57,14 @@ function MyApp() {
 	function updateList(person) {
 	  postUser(person)
 	    .then((res) => res.status === 201 
-		    ? (person.id = res.json()["id"], setCharacters([...characters, person])) 
+		    ? res.json()
 		    : undefined)
+		    .then((json) => {
+			    if(json) {
+			    	person.id = json["id"];
+			    	setCharacters([...characters, person]);
+			    }
+		    })
 	    .catch((error) => {
 	      console.log(error);
 	    });
