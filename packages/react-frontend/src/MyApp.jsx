@@ -42,7 +42,9 @@ function MyApp() {
 
 	function updateList(person) {
 	  postUser(person)
-	    .then(() => setCharacters([...characters, person]))
+	    .then((res) => res.status === 201 
+		    ? setCharacters([...characters, person]) 
+		    : undefined)
 	    .catch((error) => {
 	      console.log(error);
 	    });

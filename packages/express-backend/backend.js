@@ -32,6 +32,9 @@ const users = {
   ]
 };
 
+const IDs = new Set(["xyz789", "abc123", "ppp222",
+	"yat999", "zap555"]);
+
 const app = express();
 const port = 8000;
 
@@ -39,6 +42,10 @@ app.use(cors());
 
 
 app.use(express.json());
+
+const generateID = () => {
+	return Math.random().toString(36).slice(2)
+}
 
 const findUserByName = (name) => {
   return users["users_list"].filter(
@@ -83,8 +90,14 @@ app.delete("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  let ID = generateID();
+  while(IDs.has(ID)) {
+	  ID = generateID();
+  }
+  IDs.add(ID);
+  userToAdd.id = ID;
   addUser(userToAdd);
-  res.send();
+  res.status(201).send("Content Created");
 });
 
 app.get("/users/:id", (req, res) => {
