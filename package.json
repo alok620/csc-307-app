@@ -13,6 +13,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^3.0.1"
   }
 }
