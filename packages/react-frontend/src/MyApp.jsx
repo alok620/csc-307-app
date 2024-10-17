@@ -9,10 +9,24 @@ function MyApp() {
 	const [characters, setCharacters] = useState([]); 
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
+     const removedChar = characters.filter((character, i) => {
+	     return i === index;
+     });
+     const id = removedChar[0].id;
+     const promise = fetch(`Http://localhost:8000/users/${id}`, {
+	     method: "DELETE"
+     });
+	promise.then((res) => {
+	     if(res.status === 204) {
+		const updated = characters.filter((character, i) => {
+			return i !== index;
+		});
+		     setCharacters(updated);
+
+	     } else {
+		     return undefined;
+	     }
     });
-    setCharacters(updated);
   }
 	useEffect(() => {
 	  fetchUsers()
@@ -43,7 +57,7 @@ function MyApp() {
 	function updateList(person) {
 	  postUser(person)
 	    .then((res) => res.status === 201 
-		    ? setCharacters([...characters, person]) 
+		    ? (person.id = res.json()["id"], setCharacters([...characters, person])) 
 		    : undefined)
 	    .catch((error) => {
 	      console.log(error);

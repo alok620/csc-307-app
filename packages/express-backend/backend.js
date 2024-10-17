@@ -84,7 +84,7 @@ app.delete("/users/:id", (req, res) => {
     res.status(404).send("Resource not found.");
   } else {
     deleteUser(id);
-    res.send();
+    res.status(204).send();
   }
 });
 
@@ -97,7 +97,7 @@ app.post("/users", (req, res) => {
   IDs.add(ID);
   userToAdd.id = ID;
   addUser(userToAdd);
-  res.status(201).send("Content Created");
+  res.status(201).send(userToAdd);
 });
 
 app.get("/users/:id", (req, res) => {
