@@ -12,8 +12,8 @@ function MyApp() {
      const removedChar = characters.filter((character, i) => {
 	     return i === index;
      });
-     const id = removedChar[0].id;
-     const promise = fetch(`Http://localhost:8000/users/${id}`, {
+     const _id = removedChar[0]._id;
+     const promise = fetch(`Http://localhost:8000/users/${_id}`, {
 	     method: "DELETE"
      });
 	promise.then((res) => {
@@ -61,7 +61,7 @@ function MyApp() {
 		    : undefined)
 		    .then((json) => {
 			    if(json) {
-			    	person.id = json["id"];
+			    	person._id = json["_id"];
 			    	setCharacters([...characters, person]);
 			    }
 		    })
